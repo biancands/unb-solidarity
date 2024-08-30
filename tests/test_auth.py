@@ -1,25 +1,29 @@
 import pytest
-from app.routes.auth import register
 
-def test_register_user():
-
+def test_register_user(test_client):
     data = {
         "email": "test@example.com",
         "password": "password123"
     }
-    response = register(data)
+    response = test_client.post('/register', json=data)
     assert response.status_code == 201
-    assert response.json == {"message": "Usuário criado com sucesso", "user_id": "some_user_id"}
+    json_data = response.get_json()
+    assert json_data["message"] == "Usuário criado com sucesso"
+    assert "user_id" in json_data
 
-def test_register_existing_user():
+def test_register_existing_user(test_client):
 
     data = {
-        "email": "existing@example.com",
+        "email": "ana@example.com",
         "password": "password123"
     }
-    response = register(data)
+    response = test_client.post('/register', json=data)
+    assert response.status_code == 201
+
+    response = test_client.post('/register', json=data)
     assert response.status_code == 409
-    assert response.json == {"message": "Usuário já existe"}
+    json_data = response.get_json()
+    assert json_data["message"] == "Usuário já existe"
 
 if __name__ == "__main__":
     pytest.main()

@@ -6,11 +6,13 @@ class User:
     def __init__(self, db):
         self.db = db
 
-    def create_user(self, email, password):
+    def create_user(self, email, password, first_name, last_name):
         hashed_password = generate_password_hash(password)
         user_id = self.db.users.insert_one({
             "email": email,
-            "password": hashed_password
+            "password": hashed_password,
+            "first_name": first_name,
+            "last_name": last_name
         }).inserted_id
         return str(user_id)
 

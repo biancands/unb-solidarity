@@ -3,7 +3,9 @@ import pytest
 def test_register_user(test_client):
     data = {
         "email": "test@example.com",
-        "password": "password123"
+        "password": "password123",
+        "first_name": "John",
+        "last_name": "Doe"
     }
     response = test_client.post('/register', json=data)
     assert response.status_code == 201
@@ -15,7 +17,9 @@ def test_register_existing_user(test_client):
 
     data = {
         "email": "ana@example.com",
-        "password": "password123"
+        "password": "password123",
+        "first_name": "Jane",
+        "last_name": "Doe"
     }
     response = test_client.post('/register', json=data)
     assert response.status_code == 201

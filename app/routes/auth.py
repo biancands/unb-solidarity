@@ -22,3 +22,26 @@ def register():
 
     user_id = user.create_user(email, password, first_name, last_name)
     return jsonify({"message": "Usuário criado com sucesso", "user_id": user_id}), 201
+
+@auth_bp.route('/login', methods=['GET'])
+def login_page():
+    return render_template('login.html')
+
+@auth_bp.route('/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    user = User(mongo.db)
+    existing_user = user.find_by_email(email)
+
+    if not existing_user:
+        return jsonify({"message": "Usuário não encontrado"}), 404
+
+    existing_password = user.verify_password(existing_user['password'], password)
+
+    if existing_password:
+        return jsonify({"message": "Login bem-sucedido"}), 200
+    else:
+        return jsonify({"message": "Senha incorreta"}), 401

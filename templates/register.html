@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solidarity - Registro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background-image: url('{{ url_for('static', filename='background.jpg') }}');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+        }
+        .register-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            max-width: 500px;
+            width: 100%;
+        }
+        .register-container:hover {
+            transform: scale(1.05);
+        }
+        .register-container h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .register-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .register-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            background-color: #1db954;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .register-container button:hover {
+            background-color: #17a74a;
+        }
+        .register-container a {
+            color: #1db954;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .register-container a:hover {
+            color: #17a74a;
+        }
+    </style>
+</head>
+<body>
+    <div class="register-container">
+        <h2>Criar Sua Conta</h2>
+        <form action="{{ url_for('register') }}" method="post">
+            <!-- Nome -->
+            <div class="mb-3">
+                <input type="text" name="first_name" placeholder="Nome" required>
+            </div>
+
+            <!-- Sobrenome -->
+            <div class="mb-3">
+                <input type="text" name="last_name" placeholder="Sobrenome" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+
+            <!-- Senha -->
+            <div class="mb-3">
+                <input type="password" name="password" placeholder="Senha" required>
+            </div>
+
+            <!-- CPF -->
+            <div class="mb-3">
+                <input type="text" name="cpf" placeholder="CPF" required>
+            </div>
+
+            <!-- Data de Nascimento -->
+            <div class="mb-3">
+                <input type="date" name="birth_date" required>
+            </div>
+
+            <!-- Botão de Registro -->
+            <button type="submit">Criar Conta</button>
+
+            <!-- Link para Login -->
+            <p class="form-text mt-3">Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a></p>
+        </form>
+    </div>
+</body>
+</html>

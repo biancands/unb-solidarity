@@ -104,32 +104,6 @@ def donation():
 
     return render_template('donation.html')
 
-# Endpoint para processar o formulário de doação
-@app.route('/submit_donation', methods=['POST'])
-def submit_donation():
-    if 'user' not in session:
-        flash('Por favor, faça login para fazer uma doação.')
-        return redirect(url_for('login'))
-
-    item = request.form['item']
-    destination = request.form['destination']
-    
-    # Gerar QRCode
-    qr = qrcode.make(f"Item: {item}, Destino: {destination}")
-    buf = BytesIO()
-    qr.save(buf, format='PNG')
-    buf.seek(0)
-    
-    qr_filename = f"static/qrcodes/{item}_qrcode.png"
-    os.makedirs(os.path.dirname(qr_filename), exist_ok=True)
-    with open(qr_filename, 'wb') as f:
-        f.write(buf.getvalue())
-    
-    donations.append({'item': item, 'destination': destination, 'qrcode': qr_filename})
-    flash('Doação registrada com sucesso!')
-
-    return redirect(url_for('profile'))
-
 # Página de Visualização de Doações
 @app.route('/view_donations')
 def view_donations():
@@ -144,6 +118,24 @@ def view_donations():
 def logout():
     session.pop('user', None)
     flash('Você saiu com sucesso.')
+    return redirect(url_for('index'))
+
+# Rota de Exclusão de Conta
+@app.route('/delete_account', methods=['POST'])
+def delete_account():
+    if 'user' not in session:
+        flash('Por favor, faça login para excluir sua conta.')
+        return redirect(url_for('login'))
+
+    # Remove o usuário do "banco de dados"
+    user = session.pop('user')  # Remove o usuário da sessão
+    email = user.get('email')  # Obtém o e-mail do usuário
+    if email in users:
+        del users[email]  # Remove o usuário do dicionário de usuários
+        flash('Conta excluída com sucesso.')
+    else:
+        flash('Conta não encontrada.')
+
     return redirect(url_for('index'))
 
 # Iniciar o servidor

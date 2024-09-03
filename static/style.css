@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 body {
-    background-image: url('/static/background.jpg'); /* Certifique-se de que a imagem está na pasta 'static' */
+    background-image: url('/static/background.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -91,3 +91,11 @@ body {
 .button-container a:hover {
     background-color: #17a74a;
 }
+
+.delete-button {
+    background-color: #e63946; /* Vermelho para chamar atenção */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 

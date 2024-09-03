@@ -5,65 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        body {
-            background-image: url('{{ url_for('static', filename='background.jpg') }}');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: 'Roboto', sans-serif;
-            color: white;
-        }
-        .container {
-            background-color: rgba(0, 0, 0, 0.7);
-            padding: 40px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-            max-width: 500px;
-            width: 100%;
-        }
-        .container h1 {
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-        .container p {
-            margin: 10px 0;
-            font-size: 16px;
-        }
-        .container a {
-            display: block;
-            margin: 10px 0;
-            color: #1db954;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .container a:hover {
-            color: #17a74a;
-        }
-        .button-container {
-            display: flex;
-            justify-content: space-around;
-            margin-top: 20px;
-        }
-        .button-container a {
-            background-color: #1db954;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        .button-container a:hover {
-            background-color: #17a74a;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
@@ -71,11 +12,20 @@
         <p>Email: {{ user.email }}</p>
         <p>Data de Nascimento: {{ user.birth_date }}</p>
         <p>CPF: {{ user.cpf }}</p>
+
+        <!-- Botões para ações -->
         <div class="button-container">
             <a href="{{ url_for('donation') }}">Fazer Doação</a>
             <a href="{{ url_for('view_donations') }}">Acompanhar Doações</a>
         </div>
-        <a href="{{ url_for('logout') }}">Logout</a>
+
+        <!-- Botões para Logout e Exclusão de Conta -->
+        <div class="button-container">
+            <a href="{{ url_for('logout') }}" class="delete-button">Sair</a>
+            <form action="{{ url_for('delete_account') }}" method="post" style="display: inline;">
+                <button type="submit" class="delete-button">Excluir Conta</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

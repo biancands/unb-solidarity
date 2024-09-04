@@ -22,6 +22,14 @@ class User:
     def verify_password(self, stored_password, provided_password):
         return check_password_hash(stored_password, provided_password)
 
+    def update_user(self, email, new_data):
+        result = self.db.users.update_one({"email": email}, {"$set": new_data})
+        return result.modified_count > 0
+
+    def delete_user(self, email):
+        result = self.db.users.delete_one({"email": email})
+        return result.deleted_count > 0
+
 class Donation:
     def __init__(self, db):
         self.db = db

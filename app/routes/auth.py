@@ -45,3 +45,45 @@ def login():
         return jsonify({"message": "Login bem-sucedido"}), 200
     else:
         return jsonify({"message": "Senha incorreta"}), 401
+
+@auth_bp.route('/update_user', methods=['PUT'])
+def update_user():
+    data = request.get_json()
+    email = data.get('email')
+
+    user = User(mongo.db)
+    existing_user = user.find_by_email(email)
+
+    if not existing_user:
+        return jsonify({"message": "Usuário não encontrado"}), 404
+
+    new_data = {}
+    if data.get('new_email'):
+        new_data['email'] = data.get('new_email')
+    if data.get('new_password'):
+        new_data['password'] = data.get('new_password')
+    if data.get('new_first_name'):
+        new_data['first_name'] = data.get('new_first_name')
+    if data.get('new_last_name'):
+        new_data['last_name'] = data.get('new_last_name')
+
+    if not new_data:
+        return jsonify({"message": "Nenhuma informação fornecida para atualização"}), 400
+
+    if user.update_user(email, new_data):
+        return jsonify({"message": "Dados da conta atualizados com sucesso"}), 200
+    else:
+        return jsonify({"message": "Erro ao atualizar dados da conta"}), 500
+@auth_bp.route('/delete_user', methods=['DELETE'])
+def delete_user():
+    data = request.get_json()
+    email = data.get('email')
+
+    user = User(mongo.db)
+    if not user.find_by_email(email):
+        return jsonify({"message": "Usuário não encontrado"}), 404
+
+    if user.delete_user(email):
+        return jsonify({"message": "Usuário excluído com sucesso"}), 200
+    else:
+        return jsonify({"message": "Erro ao excluir usuário"}), 500

@@ -47,13 +47,9 @@ def login():
         return jsonify({"message": "Senha incorreta"}), 401
 
 @auth_bp.route('/update_user', methods=['PUT'])
-def update():
+def update_user():
     data = request.get_json()
     email = data.get('email')
-    new_email = data.get('new_email')
-    new_password = data.get('new_password')
-    new_first_name = data.get('new_first_name')
-    new_last_name = data.get('new_last_name')
 
     user = User(mongo.db)
     existing_user = user.find_by_email(email)
@@ -61,20 +57,23 @@ def update():
     if not existing_user:
         return jsonify({"message": "Usuário não encontrado"}), 404
 
-    if new_email:
-        existing_user['email'] = new_email
-    if new_password:
-        existing_user['password'] = new_password
-    if new_first_name:
-        existing_user['first_name'] = new_first_name
-    if new_last_name:
-        existing_user['last_name'] = new_last_name
+    new_data = {}
+    if data.get('new_email'):
+        new_data['email'] = data.get('new_email')
+    if data.get('new_password'):
+        new_data['password'] = data.get('new_password')
+    if data.get('new_first_name'):
+        new_data['first_name'] = data.get('new_first_name')
+    if data.get('new_last_name'):
+        new_data['last_name'] = data.get('new_last_name')
 
-    if user.update_user(existing_user):
+    if not new_data:
+        return jsonify({"message": "Nenhuma informação fornecida para atualização"}), 400
+
+    if user.update_user(email, new_data):
         return jsonify({"message": "Dados da conta atualizados com sucesso"}), 200
     else:
         return jsonify({"message": "Erro ao atualizar dados da conta"}), 500
-
 @auth_bp.route('/delete_user', methods=['DELETE'])
 def delete_user():
     data = request.get_json()

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil do Usuário</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Exibindo o nome completo do usuário -->
+        <h1>Bem-vindo, {{ user.get('first_name', 'Usuário') }} {{ user.get('last_name', '') }}!</h1>
+
+        <!-- Exibindo o email do usuário -->
+        <p>Email: {{ user.get('email') }}</p>
+
+        <!-- Exibindo campos opcionais, se existirem -->
+        {% if user.get('birth_date') %}
+            <p>Data de Nascimento: {{ user.get('birth_date') }}</p>
+        {% endif %}
+
+        {% if user.get('cpf') %}
+            <p>CPF: {{ user.get('cpf') }}</p>
+        {% endif %}
+
+        <!-- Botões para ações -->
+        <div class="button-container">
+            <a href="{{ url_for('main.index') }}">Fazer Doação</a>
+            <a href="{{ url_for('main.index') }}">Acompanhar Doações</a>
+        </div>
+
+        <!-- Botões para Logout e Exclusão de Conta -->
+        <div class="button-container">
+            <a href="{{ url_for('auth.logout') }}" class="delete-button">Sair</a>
+            <form action="{{ url_for('auth.delete_user') }}" method="post" style="display: inline;">
+                <button type="submit" class="delete-button">Excluir Conta</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

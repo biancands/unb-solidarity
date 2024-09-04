@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solidarity - Registro</title>
+    <title>Solidarity - Bem-vindo</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -21,24 +21,22 @@
             font-family: 'Roboto', sans-serif;
             color: white;
         }
-        .register-container {
+        .login-container {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 40px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transition: transform 0.3s ease;
-            max-width: 500px;
-            width: 100%;
         }
-        .register-container:hover {
+        .login-container:hover {
             transform: scale(1.05);
         }
-        .register-container h2 {
+        .login-container h1 {
             margin-bottom: 20px;
             font-weight: 700;
         }
-        .register-container input {
+        .login-container input {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -46,7 +44,7 @@
             border-radius: 5px;
             font-size: 16px;
         }
-        .register-container button {
+        .login-container button {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
@@ -58,86 +56,63 @@
             font-size: 16px;
             transition: background-color 0.3s ease;
         }
-        .register-container button:hover {
+        .login-container button:hover {
             background-color: #17a74a;
         }
-        .register-container a {
+        .login-container a {
             color: #1db954;
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        .register-container a:hover {
+        .login-container a:hover {
             color: #17a74a;
         }
     </style>
 </head>
 <body>
-    <div class="register-container">
-        <h2>Criar conta</h2>
-        <form id="register-form">
-            <!-- Nome -->
-            <div class="mb-3">
-                <input type="text" name="first_name" placeholder="Nome" required>
-            </div>
-
-            <!-- Sobrenome -->
-            <div class="mb-3">
-                <input type="text" name="last_name" placeholder="Sobrenome" required>
-            </div>
-
-            <!-- Email -->
-            <div class="mb-3">
-                <input type="email" name="email" placeholder="Email" required>
-            </div>
-
-            <!-- Senha -->
-            <div class="mb-3">
-                <input type="password" name="password" placeholder="Senha" required>
-            </div>
-
-            <!-- Botão de Registro -->
-            <button type="submit">Criar Conta</button>
-
-            <!-- Link para Login -->
-            <p class="form-text mt-3">Já tem uma conta? <a href="{{ url_for('auth.login') }}">Faça login</a></p>
+    <div class="login-container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="width: 50px; margin-bottom: 20px;">
+        <h1>Solidarity</h1>
+        <form id="login-form">
+            <input type="email" name="email" placeholder="E-mail" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <button type="submit">Entrar</button>
         </form>
+        <p>Ou</p>
+        <a href="{{ url_for('auth.register') }}">Criar conta</a>
     </div>
 
     <script>
-        document.getElementById("register-form").addEventListener("submit", function(event) {
+        document.getElementById("login-form").addEventListener("submit", function(event) {
             event.preventDefault();
 
             // Coletando os dados do formulário
             const formData = {
-                first_name: document.querySelector('input[name="first_name"]').value,
-                last_name: document.querySelector('input[name="last_name"]').value,
                 email: document.querySelector('input[name="email"]').value,
                 password: document.querySelector('input[name="password"]').value
             };
 
             // Enviando os dados via fetch como JSON
-            fetch("{{ url_for('auth.register') }}", {
+            fetch("{{ url_for('auth.login') }}", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(formData)
             })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Erro no registro');
-                }
-            })
+            .then(response => response.json())  // Transformar a resposta em JSON
             .then(data => {
-                alert(data.message);  // Exibe a mensagem de sucesso ou erro
-                if (data.message === "Usuário criado com sucesso") {
-                    window.location.href = "{{ url_for('auth.login_page') }}";  // Redireciona para login após sucesso
+                if (data.message === "Login bem-sucedido") {
+                    // Redireciona para a página de perfil após login bem-sucedido
+                    window.location.href = "{{ url_for('auth.profile_page') }}";
+                } else {
+                    // Exibe a mensagem de erro se o login falhar
+                    alert(data.message);
                 }
             })
             .catch(error => {
-                alert("Ocorreu um erro: " + error.message);
+                console.error("Erro no login:", error);
+                alert("Ocorreu um erro no login. Tente novamente.");
             });
         });
     </script>

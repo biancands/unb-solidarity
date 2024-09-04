@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify, render_template
+from flask import Blueprint, redirect, request, jsonify, render_template, session, url_for
 from app.utils.db import mongo
 from app.models import User
 
@@ -25,7 +25,7 @@ def register():
 
 @auth_bp.route('/login', methods=['GET'])
 def login_page():
-    return render_template('login.html')
+    return render_template('index.html')
 
 @auth_bp.route('/login', methods=['POST'])
 def login():
@@ -42,9 +42,23 @@ def login():
     existing_password = user.verify_password(existing_user['password'], password)
 
     if existing_password:
+        session['user_email'] = email
         return jsonify({"message": "Login bem-sucedido"}), 200
     else:
         return jsonify({"message": "Senha incorreta"}), 401
+
+@auth_bp.route('/profile', methods=['GET'])
+def profile_page():
+
+    user_email = session.get('user_email')
+    if not user_email:
+        return redirect(url_for('auth.login_page'))
+
+    user = User(mongo.db).find_by_email(user_email)
+    if not user:
+        return jsonify({"message": "Usuário não encontrado"}), 404
+
+    return render_template('profile.html', user=user)
 
 @auth_bp.route('/update_user', methods=['PUT'])
 def update_user():
@@ -87,3 +101,10 @@ def delete_user():
         return jsonify({"message": "Usuário excluído com sucesso"}), 200
     else:
         return jsonify({"message": "Erro ao excluir usuário"}), 500
+    
+@auth_bp.route('/logout', methods=['GET'])
+def logout():
+    session.pop('user_email', None)
+    return redirect(url_for('auth.login_page')) 
+
+

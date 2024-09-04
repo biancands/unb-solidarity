@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+    background-image: url('/static/background.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    color: white;
+}
+
+.login-container, .register-container, .container {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.login-container:hover, .register-container:hover, .container:hover {
+    transform: scale(1.05);
+}
+
+.login-container h1, .register-container h2, .container h1 {
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.login-container input, .register-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.login-container button, .register-container button {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: none;
+    background-color: #1db954;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.login-container button:hover, .register-container button:hover {
+    background-color: #17a74a;
+}
+
+.login-container a, .register-container a, .container a {
+    color: #1db954;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-container a:hover, .register-container a:hover, .container a:hover {
+    color: #17a74a;
+}
+
+.container p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.button-container a {
+    background-color: #1db954;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.button-container a:hover {
+    background-color: #17a74a;
+}
+
+.delete-button {
+    background-color: #e63946; /* Vermelho para chamar atenção */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 

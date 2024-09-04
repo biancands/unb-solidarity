@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Doações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Minhas Doações</h1>
+        {% if donations %}
+            <ul>
+                {% for donation in donations %}
+                    <li>
+                        <p><strong>Item:</strong> {{ donation.item }}</p>
+                        <p><strong>Destino:</strong> {{ donation.destination }}</p>
+                        <p><strong>QR Code:</strong></p>
+                        <img src="{{ url_for('static', filename=donation.qrcode) }}" alt="QR Code">
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Você ainda não fez nenhuma doação.</p>
+        {% endif %}
+        <a href="{{ url_for('profile') }}">Voltar ao Perfil</a>
+    </div>
+</body>
+</html>

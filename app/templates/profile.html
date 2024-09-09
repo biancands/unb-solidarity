@@ -32,10 +32,40 @@
         <!-- Botões para Logout e Exclusão de Conta -->
         <div class="button-container">
             <a href="{{ url_for('auth.logout') }}" class="delete-button">Sair</a>
-            <form action="{{ url_for('auth.delete_user') }}" method="post" style="display: inline;">
-                <button type="submit" class="delete-button">Excluir Conta</button>
-            </form>
+
+            <!-- Formulário para excluir conta -->
+            <button id="delete-account-btn" class="delete-button">Excluir Conta</button>
         </div>
     </div>
+
+    <script>
+        document.getElementById('delete-account-btn').addEventListener('click', function() {
+            // Solicitação AJAX para excluir a conta
+            fetch('{{ url_for("auth.delete_user") }}', {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: '{{ user.get("email") }}'
+                })
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Exibe uma mensagem de sucesso e redireciona
+                    alert("Conta excluída com sucesso!");
+                    window.location.href = "{{ url_for('auth.login_page') }}";
+                } else {
+                    return response.json().then(data => {
+                        alert(data.message);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao excluir conta:', error);
+                alert('Ocorreu um erro ao excluir a conta.');
+            });
+        });
+    </script>
 </body>
 </html>

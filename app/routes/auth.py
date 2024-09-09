@@ -4,10 +4,12 @@ from app.models import User
 
 auth_bp = Blueprint('auth', __name__)
 
+#EU001
 @auth_bp.route('/register', methods=['GET'])
 def register_page():
     return render_template('register.html')
 
+#EU001
 @auth_bp.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
@@ -23,10 +25,12 @@ def register():
     user_id = user.create_user(email, password, first_name, last_name)
     return jsonify({"message": "Usuário criado com sucesso", "user_id": user_id}), 201
 
+#EU002
 @auth_bp.route('/login', methods=['GET'])
 def login_page():
     return render_template('index.html')
 
+#EU002
 @auth_bp.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -47,6 +51,8 @@ def login():
     else:
         return jsonify({"message": "Senha incorreta"}), 401
 
+#EU006
+#EU007
 @auth_bp.route('/profile', methods=['GET'])
 def profile_page():
 
@@ -60,6 +66,7 @@ def profile_page():
 
     return render_template('profile.html', user=user)
 
+#EU003
 @auth_bp.route('/update_user', methods=['PUT'])
 def update_user():
     data = request.get_json()
@@ -88,6 +95,8 @@ def update_user():
         return jsonify({"message": "Dados da conta atualizados com sucesso"}), 200
     else:
         return jsonify({"message": "Erro ao atualizar dados da conta"}), 500
+
+#EU004    
 @auth_bp.route('/delete_user', methods=['DELETE'])
 def delete_user():
     data = request.get_json()
@@ -102,6 +111,7 @@ def delete_user():
     else:
         return jsonify({"message": "Erro ao excluir usuário"}), 500
     
+#EU005
 @auth_bp.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_email', None)

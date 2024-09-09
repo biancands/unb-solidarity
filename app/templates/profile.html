@@ -5,16 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil do Usuário</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .menu-container {
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-left: 5%;
+            width: 20%;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .menu-container h3 {
+            margin-bottom: 20px;
+        }
+
+        .menu-container a, .menu-container form button, .menu-container button {
+            display: block;
+            width: 100%;
+            text-align: center;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #1db954;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .menu-container a:hover, .menu-container form button:hover, .menu-container button:hover {
+            background-color: #17a74a;
+        }
+
+        .menu-container form {
+            width: 100%;
+        }
+
+        .profile-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 5%;
+            width: 60%;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .welcome-message h1 {
+            font-size: 36px;
+            color: #1db954;
+            margin-bottom: 10px;
+        }
+
+        .welcome-message p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Exibindo o nome completo do usuário -->
-        <h1>Bem-vindo, {{ user.get('first_name', 'Usuário') }} {{ user.get('last_name', '') }}!</h1>
+    <!-- Menu à esquerda -->
+    <div class="menu-container">
+        <h3>Serviços</h3>
+        <a href="{{ url_for('main.index') }}">Fazer Doação</a>
+        <a href="{{ url_for('main.index') }}">Acompanhar Doações</a>
+        <a href="{{ url_for('auth.update_user_page') }}">Atualizar Dados da Conta</a>
+        <a href="{{ url_for('auth.logout') }}">Sair</a>
 
-        <!-- Exibindo o email do usuário -->
+        <!-- Excluir conta com método AJAX -->
+        <button id="delete-account-btn" class="delete-button">Excluir Conta</button>
+    </div>
+
+    <!-- Container do Perfil -->
+    <div class="profile-container">
+        <div class="welcome-message">
+            <h1>Bem-vindo, {{ user.get('first_name', 'Usuário') }} {{ user.get('last_name', '') }}!</h1>
+            <p>Solidarity é um sistema de acompanhamento e realização de doações. Aqui, você pode contribuir para melhorar a vida de muitas pessoas. Sua doação faz a diferença. Doe e ajude a transformar vidas.</p>
+        </div>
+
+        <!-- Informações do usuário -->
         <p>Email: {{ user.get('email') }}</p>
 
-        <!-- Exibindo campos opcionais, se existirem -->
         {% if user.get('birth_date') %}
             <p>Data de Nascimento: {{ user.get('birth_date') }}</p>
         {% endif %}
@@ -22,19 +122,6 @@
         {% if user.get('cpf') %}
             <p>CPF: {{ user.get('cpf') }}</p>
         {% endif %}
-
-        <!-- Botões para ações -->
-        <div class="button-container">
-            <a href="{{ url_for('main.index') }}">Fazer Doação</a>
-            <a href="{{ url_for('main.index') }}">Acompanhar Doações</a>
-        </div>
-
-        <!-- Botões para Logout, Atualização e Exclusão de Conta -->
-        <div class="button-container">
-            <a href="{{ url_for('auth.logout') }}" class="delete-button">Sair</a>
-            <a href="{{ url_for('auth.update_user_page') }}" class="update-button">Atualizar Dados</a>
-            <button id="delete-account-btn" class="delete-button">Excluir Conta</button>
-        </div>
     </div>
 
     <script>

@@ -29,11 +29,10 @@
             <a href="{{ url_for('main.index') }}">Acompanhar Doações</a>
         </div>
 
-        <!-- Botões para Logout e Exclusão de Conta -->
+        <!-- Botões para Logout, Atualização e Exclusão de Conta -->
         <div class="button-container">
             <a href="{{ url_for('auth.logout') }}" class="delete-button">Sair</a>
-
-            <!-- Formulário para excluir conta -->
+            <a href="{{ url_for('auth.update_user_page') }}" class="update-button">Atualizar Dados</a>
             <button id="delete-account-btn" class="delete-button">Excluir Conta</button>
         </div>
     </div>

@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solidarity - Atualizar Dados</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            background-image: url("{{ url_for('static', filename='background.jpg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: white;
+        }
+        .update-container {
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+            max-width: 500px;
+            width: 100%;
+        }
+        .update-container:hover {
+            transform: scale(1.05);
+        }
+        .update-container h2 {
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        .update-container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .update-container button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            background-color: #1db954;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .update-container button:hover {
+            background-color: #17a74a;
+        }
+        .update-container a {
+            color: #1db954;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .update-container a:hover {
+            color: #17a74a;
+        }
+    </style>
+</head>
+<body>
+    <div class="update-container">
+        <h2>Atualizar Dados</h2>
+        <form id="update-form">
+            <!-- Nome -->
+            <div class="mb-3">
+                <input type="text" name="new_first_name" placeholder="Novo Nome">
+            </div>
+
+            <!-- Sobrenome -->
+            <div class="mb-3">
+                <input type="text" name="new_last_name" placeholder="Novo Sobrenome">
+            </div>
+
+            <!-- Email -->
+            <div class="mb-3">
+                <input type="email" name="new_email" placeholder="Novo Email">
+            </div>
+
+            <!-- Senha -->
+            <div class="mb-3">
+                <input type="password" name="new_password" placeholder="Nova Senha">
+            </div>
+
+            <!-- Botão de Atualização -->
+            <button type="submit">Atualizar Dados</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("update-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            // Coletando os dados do formulário
+            const formData = {
+                new_first_name: document.querySelector('input[name="new_first_name"]').value,
+                new_last_name: document.querySelector('input[name="new_last_name"]').value,
+                new_email: document.querySelector('input[name="new_email"]').value,
+                new_password: document.querySelector('input[name="new_password"]').value
+            };
+
+            // Enviando os dados via fetch como JSON
+            fetch("{{ url_for('auth.update_user') }}", {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === "Dados da conta atualizados com sucesso") {
+                    alert("Dados atualizados com sucesso!");
+                    window.location.href = "{{ url_for('auth.profile_page') }}";  // Redireciona para o perfil após a atualização
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao atualizar os dados:", error);
+                alert("Ocorreu um erro ao atualizar os dados. Tente novamente.");
+            });
+        });
+    </script>
+</body>
+</html>

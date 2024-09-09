@@ -57,9 +57,10 @@ def login():
 def profile_page():
 
     user_email = session.get('user_email')
+    
     if not user_email:
         return redirect(url_for('auth.login_page'))
-
+    
     user = User(mongo.db).find_by_email(user_email)
     if not user:
         return jsonify({"message": "Usuário não encontrado"}), 404
@@ -67,10 +68,21 @@ def profile_page():
     return render_template('profile.html', user=user)
 
 #EU003
+@auth_bp.route('/update_user_page', methods=['GET'])
+def update_user_page():
+    return render_template('update_user.html')
+
+
+#EU003
 @auth_bp.route('/update_user', methods=['PUT'])
 def update_user():
     data = request.get_json()
     email = data.get('email')
+
+    if not email:
+        email = session.get('user_email')
+        if not email:
+            return jsonify({"message": "Usuário não logado"}), 403
 
     user = User(mongo.db)
     existing_user = user.find_by_email(email)
@@ -95,6 +107,7 @@ def update_user():
         return jsonify({"message": "Dados da conta atualizados com sucesso"}), 200
     else:
         return jsonify({"message": "Erro ao atualizar dados da conta"}), 500
+
 
 #EU004    
 @auth_bp.route('/delete_user', methods=['DELETE'])

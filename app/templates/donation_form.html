@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solidarity - Criar Doação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .donation-form-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+        }
+
+        .donation-form-container h2 {
+            margin-bottom: 20px;
+            color: #1db954;
+            text-align: center;
+        }
+
+        .donation-form-container input, .donation-form-container textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .donation-form-container button {
+            width: 100%;
+            padding: 15px;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .donation-form-container button:hover {
+            background-color: #17a74a;
+        }
+    </style>
+</head>
+<body>
+    <div class="donation-form-container">
+        <h2>Preencha os detalhes da doação</h2>
+        <form id="donation-form">
+            <!-- Descrição dos itens -->
+            <label for="item_description">Descrição dos Itens:</label>
+            <textarea name="item_description" id="item_description" rows="4" placeholder="Descreva os itens que está doando" required></textarea>
+
+            <!-- Destino da doação -->
+            <label for="destination">Destino da Doação:</label>
+            <input type="text" name="destination" id="destination" placeholder="Informe o local ou entidade que receberá a doação" required>
+
+            <!-- Quantidade de itens -->
+            <label for="quantity">Quantidade de Itens:</label>
+            <input type="number" name="quantity" id="quantity" min="1" placeholder="Digite a quantidade de itens" required>
+
+            <!-- Botão de envio -->
+            <button type="submit">Enviar Doação</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('donation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            // Coleta dos dados do formulário (será enviado para o backend)
+            const donationData = {
+                item_description: document.getElementById('item_description').value,
+                destination: document.getElementById('destination').value,
+                quantity: document.getElementById('quantity').value
+            };
+
+            // Simulação do envio de dados (ajuste para enviar via fetch, se necessário)
+            console.log(donationData);
+            alert('Doação enviada com sucesso!');
+        });
+    </script>
+</body>
+</html>

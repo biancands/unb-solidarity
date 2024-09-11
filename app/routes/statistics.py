@@ -71,7 +71,8 @@ def generate_statistics_report():
 
     return report_data, report_path, chart_path
 
-
+#EU015
+#EU016
 @statistics_bp.route('/generate_statistics', methods=['GET'])
 def generate_statistics():
     """
@@ -88,7 +89,8 @@ def generate_statistics():
         'chart_path': chart_path
     })
 
-
+#EU015
+#EU016
 @statistics_bp.route('/statistics', methods=['GET'])
 def statistics_page():
     """

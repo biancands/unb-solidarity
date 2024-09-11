@@ -40,7 +40,8 @@ def create_donation_page():
     """
     return render_template('donation_form.html')
 
-
+#EU008
+#EU009
 @donation_bp.route('/create_donation', methods=['POST'])
 def create_donation():
     """
@@ -78,6 +79,7 @@ def create_donation():
 
 
 #pylint: disable=line-too-long
+#EU010
 def get_address_from_gps(destination):
     """
     Retrieves the address from GPS coordinates using the Nominatim API.
@@ -105,7 +107,7 @@ def get_address_from_gps(destination):
         print(f"Erro ao obter endereço via GPS: {e}")
         return destination
 
-
+#EU010
 @donation_bp.route('/qrcode/<donation_id>', methods=['GET'])
 def qr_code(donation_id):
     """
@@ -144,7 +146,8 @@ def register_donation_page():
     """
     return render_template('register_donation.html')
 
-
+#EU013
+#EU014
 @donation_bp.route('/register_donation', methods=['POST'])
 def register_donation():
     """

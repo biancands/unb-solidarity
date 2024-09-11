@@ -17,7 +17,7 @@ from app.models import Donation, Tracking, Media
 
 tracking_bp = Blueprint('tracking', __name__)
 
-
+#EU011
 @tracking_bp.route('/track_donations', methods=['GET'])
 def track_donations():
     """
@@ -50,7 +50,7 @@ def track_donations():
     return render_template('track_donations.html',
                            donations=donations_with_tracking)
 
-
+#EU012
 @tracking_bp.route('/register_donation_receipt', methods=['POST'])
 def register_donation_receipt():
     """
@@ -72,7 +72,8 @@ def register_donation_receipt():
     return jsonify({"message":
                     "Doação recebida e comprovada com sucesso"}), 200
 
-
+#EU015
+#EU016
 @tracking_bp.route('/statistics', methods=['GET'])
 def statistics():
     """

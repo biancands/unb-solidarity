@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Code</title>
 </head>
 <body>
-    <div class="qr-code">
-        <h2>Seu QR Code:</h2>
-        <img src="{{ url_for('qrcode', data=url_for('donation.qr_code', donation_id=donation_id, _external=True)) }}" alt="QR Code">
-    </div>
+    <h1>QR Code para a Doação</h1>
+    <p>Doação ID: {{ donation_id }}</p>
+    <img src="{{ url_for('donation.qr_code', donation_id=donation_id) }}" alt="QR Code">
 </body>
 </html>

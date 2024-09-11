@@ -13,7 +13,6 @@ def create_app():
     app.config.from_object(config)
 
     db = init_db(app)
-
     qrcode.init_app(app)
     
     app.register_blueprint(auth_bp)

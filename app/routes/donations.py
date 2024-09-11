@@ -1,4 +1,6 @@
-from flask import Blueprint, redirect, request, jsonify, render_template, session, url_for
+from io import BytesIO
+from flask import Blueprint, Response, redirect, request, jsonify, render_template, session, url_for
+import qrcode
 from app.utils.db import mongo
 from app.models import Donation
 from flask_qrcode import QRcode
@@ -30,7 +32,7 @@ def create_donation():
     donation_id = donation.create_donation(user_id, item, address)
 
     qr_code_url = url_for('donation.qr_code', donation_id=donation_id, _external=True)
-    tracking_code = f"QRCode para doação: {donation_id}"
+    tracking_code = donation_id  # Ajuste aqui
 
     mongo.db.donations.update_one({"_id": ObjectId(donation_id)}, {"$set": {"tracking_code": tracking_code}})
 
@@ -61,4 +63,25 @@ def get_address_from_gps(destination):
 
 @donation_bp.route('/qrcode/<donation_id>', methods=['GET'])
 def qr_code(donation_id):
-    return render_template('qr_code.html', donation_id=donation_id)
+    # Cria uma instância do QR Code
+    qr = qrcode.QRCode(
+        version=1,
+        error_correction=qrcode.constants.ERROR_CORRECT_L,
+        box_size=10,
+        border=4,
+    )
+    
+    # Adiciona dados ao QR Code
+    qr.add_data(url_for('donation.qr_code', donation_id=donation_id, _external=True))
+    qr.make(fit=True)
+    
+    # Gera a imagem do QR Code
+    img = qr.make_image(fill='black', back_color='white')
+    
+    # Converte a imagem para bytes
+    img_bytes = BytesIO()
+    img.save(img_bytes)
+    img_bytes.seek(0)
+    
+    # Retorna a imagem como uma resposta
+    return Response(img_bytes, mimetype='image/png')

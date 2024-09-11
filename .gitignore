@@ -6,3 +6,4 @@ tests/__pycache__/
 *.pyo
 *.pyd
 .coverage
+uploads/

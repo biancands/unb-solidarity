@@ -40,7 +40,7 @@ class Donation:
             "item": item,
             "destination": destination,
             "tracking_code": None,
-            "created_at": datetime.utcnow()
+            "created_at": datetime.datetime.utcnow()
         }).inserted_id
         return str(donation_id)
 
@@ -56,7 +56,7 @@ class Tracking:
             "donation_id": ObjectId(donation_id),
             "location": location,
             "status": status,
-            "timestamp": datetime.utcnow()
+            "timestamp": datetime.datetime.utcnow()
         }).inserted_id
         return str(event_id)
 

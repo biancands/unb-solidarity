@@ -62,19 +62,15 @@
     <div class="donation-form-container">
         <h2>Preencha os detalhes da doação</h2>
         <form id="donation-form">
-            <!-- Descrição dos itens -->
             <label for="item_description">Descrição dos Itens:</label>
             <textarea name="item_description" id="item_description" rows="4" placeholder="Descreva os itens que está doando" required></textarea>
 
-            <!-- Destino da doação -->
             <label for="destination">Destino da Doação:</label>
             <input type="text" name="destination" id="destination" placeholder="Informe o local ou entidade que receberá a doação" required>
 
-            <!-- Quantidade de itens -->
             <label for="quantity">Quantidade de Itens:</label>
             <input type="number" name="quantity" id="quantity" min="1" placeholder="Digite a quantidade de itens" required>
 
-            <!-- Botão de envio -->
             <button type="submit">Enviar Doação</button>
         </form>
     </div>
@@ -82,16 +78,34 @@
     <script>
         document.getElementById('donation-form').addEventListener('submit', function(event) {
             event.preventDefault();
-            // Coleta dos dados do formulário (será enviado para o backend)
+
             const donationData = {
                 item_description: document.getElementById('item_description').value,
                 destination: document.getElementById('destination').value,
                 quantity: document.getElementById('quantity').value
             };
 
-            // Simulação do envio de dados (ajuste para enviar via fetch, se necessário)
-            console.log(donationData);
-            alert('Doação enviada com sucesso!');
+            fetch("{{ url_for('donation.create_donation') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams(donationData)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Erro ao enviar a doação');
+                }
+            })
+            .then(html => {
+                document.body.innerHTML = html;
+            })
+            .catch(error => {
+                console.error('Erro:', error);
+                alert('Ocorreu um erro ao enviar a doação');
+            });
         });
     </script>
 </body>

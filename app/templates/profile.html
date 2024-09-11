@@ -97,8 +97,10 @@
     <div class="menu-container">
         <h3>Serviços</h3>
         <a href="{{ url_for('donation.create_donation') }}">Fazer Doação</a>
-        <a href="{{ url_for('main.index') }}">Acompanhar Doações</a>
+        <a href="{{ url_for('tracking.track_donations') }}">Acompanhar Doações</a>
+        <a href="{{ url_for('donation.register_donation_page') }}">Registrar Doação Recebida</a>
         <a href="{{ url_for('auth.update_user_page') }}">Atualizar Dados da Conta</a>
+        <a href="{{ url_for('statistics.statistics_page') }}">Estatísticas do Site</a>
         <a href="{{ url_for('auth.logout') }}">Sair</a>
 
         <!-- Excluir conta com método AJAX -->

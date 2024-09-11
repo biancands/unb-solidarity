@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acompanhar Doações</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .tracking-container {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1db954;
+            margin-bottom: 30px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table th, table td {
+            padding: 15px 20px;
+            text-align: left;
+            font-size: 16px;
+            color: #333;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #1db954;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table td a {
+            color: #1db954;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        table td a:hover {
+            text-decoration: underline;
+        }
+
+        .message-empty {
+            text-align: center;
+            font-size: 18px;
+            color: #999;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="tracking-container">
+        <h2>Suas Doações</h2>
+
+        {% if donations %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Descrição</th>
+                    <th>Destino</th>
+                    <th>Status</th>
+                    <th>Último Local</th>
+                    <th>Comprovantes</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for donation_info in donations %}
+                    <tr>
+                        <td>{{ donation_info.donation.item }}</td>
+                        <td>{{ donation_info.donation.destination }}</td>
+                        <td>
+                            {% if donation_info.tracking %}
+                                {{ donation_info.tracking[-1].status }}
+                            {% else %}
+                                Em Andamento
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if donation_info.tracking %}
+                                {{ donation_info.tracking[-1].location }}
+                            {% else %}
+                                Aguardando Atualização
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if donation_info.media %}
+                                {% for media in donation_info.media %}
+                                <a href="{{ url_for('static', filename='uploads/' ~ media.url) }}" target="_blank">Ver Mídia</a>
+
+                                {% endfor %}
+                            {% else %}
+                                Nenhum Comprovante
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="message-empty">
+            <p>Você ainda não fez nenhuma doação.</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -57,6 +57,23 @@
         .success-container a:hover {
             background-color: #17a74a;
         }
+
+        .success-container .back-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 5px;
+            display: inline-block;
+            text-decoration: none;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .success-container .back-button:hover {
+            background-color: #555;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +84,7 @@
 
         <p>Guarde esse código para anexar à sua doação: <strong>{{ tracking_code }}</strong></p>
         <a href="{{ url_for('donation.create_donation_page') }}">Fazer outra doação</a>
+        <a href="http://127.0.0.1:5000/profile" class="back-button">Voltar</a>
     </div>
 </body>
 </html>

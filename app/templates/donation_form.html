@@ -51,10 +51,28 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s ease;
+            margin-bottom: 10px;
         }
 
         .donation-form-container button:hover {
             background-color: #17a74a;
+        }
+
+        .donation-form-container .back-button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 15px;
+            border-radius: 5px;
+            display: inline-block;
+            text-align: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .donation-form-container .back-button:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -72,6 +90,7 @@
             <input type="number" name="quantity" id="quantity" min="1" placeholder="Digite a quantidade de itens" required>
 
             <button type="submit">Enviar Doação</button>
+            <button type="button" class="back-button" onclick="window.location.href='http://127.0.0.1:5000/profile'">Voltar</button>
         </form>
     </div>
 
